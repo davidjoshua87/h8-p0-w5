@@ -8,7 +8,7 @@ Code
 
 //code disini
 function hapusSimbol(str) {
- return str.replace(/\W/gi, '');
+  return str.replace(/\W/gi, '');
 }
 
 // TEST CASES
