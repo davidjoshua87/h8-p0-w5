@@ -15,59 +15,100 @@ siapa saja yang membeli, sisa stock barang dan total pemasukan untuk barang ters
 
 
 function countProfit(shoppers) {
+  //list cart item
   var cartItem = [
     ['Sepatu Stacattu', 1500000, 10],
     ['Baju Zoro', 500000, 2],
     ['Sweater Uniklooh', 175000, 1]
   ];
 
-  var resultObject = [];
+  // variable penampung object product
+  var arrObject = [];
 
+  // pengecekan data pembelian kosong atau tidak
   if (shoppers.length !== 0) {
-    for (var i = 0; i < cartItem.length; i++) {
-      var objectShoppers = {};
-      var buyer = [];
-      var purchase = 0;
-      var stockItem = cartItem[i][2];
-      var nameItem = cartItem[i][0];
-      var price = cartItem[i][1];
-      for (var j = 0; j < shoppers.length; j++) {
-        var productNamePurchased = shoppers[j].product;
-        var amountProductPurchased = shoppers[j].amount;
-        var nameBuyers = shoppers[j].name;
-        if (productNamePurchased === nameItem &&  purchase + amountProductPurchased <= stockItem) {
-          purchase += amountProductPurchased;
-          buyer.push(nameBuyers);
+    // stok product
+    var stockShoe = cartItem[0][2];
+    var stockShirtZoro = cartItem[1][2];
+    var stockShirtUniklooh = cartItem[2][2];
+
+    // variable menampung hasil pengecekan
+    var shoeBuyers = [];
+    var shirtZoroBuyers = [];
+    var shirtUnikloohBuyers = [];
+    var buyers;
+    var leftovers;
+
+    // mengecek pembelian barang dan menghitung jumlah stock
+    for (var i = 0; i < shoppers.length; i++) {
+      if (shoppers[i].product === 'Sepatu Stacattu') {
+        // jika stok masih ada, maka bisa dijual
+        if (stockShoe >= shoppers[i].amount) {
+          shoeBuyers.push(shoppers[i].name);
+          stockShoe -= shoppers[i].amount;
+        }
+      } else if (shoppers[i].product === 'Baju Zoro') {
+        if (stockShirtZoro >= shoppers[i].amount) {
+          shirtZoroBuyers.push(shoppers[i].name);
+          stockShirtZoro -= shoppers[i].amount;
+        }
+      } else if (shoppers[i].product === 'Sweater Uniklooh') {
+        if (stockShirtUniklooh >= shoppers[i].amount) {
+          shirtUnikloohBuyers.push(shoppers[i].name);
+          stockShirtUniklooh -= shoppers[i].amount;
         }
       }
-      console.log('+++ ' + purchase);
-      objectShoppers.product = nameItem;
-      objectShoppers.shoppers = buyer;
-      objectShoppers.leftOver = stockItem - purchase;
-      objectShoppers.totalProfit = price * purchase;
-      resultObject.push(objectShoppers);
     }
-    return resultObject;
+
+    // menghitung sisa stock, profit dan mengecek nama pembeli
+    for (var j = 0; j < cartItem.length; j++) {
+      //variable nama isi cart item
+      var nameItem = cartItem[j][0];
+      var stockItem = cartItem[j][2];
+      var price = cartItem[j][1];
+
+      if (nameItem === 'Sepatu Stacattu') {
+        buyers = shoeBuyers;
+        leftovers = stockShoe;
+        profit = (stockItem - stockShoe) * price;
+      } else if (nameItem === 'Baju Zoro') {
+        buyers = shirtZoroBuyers;
+        leftovers = stockShirtZoro;
+        profit = (stockItem - stockShirtZoro) * price;
+      } else if (nameItem === 'Sweater Uniklooh') {
+        buyers = shirtUnikloohBuyers;
+        leftovers = stockShirtUniklooh;
+        profit = (stockItem - stockShirtUniklooh) * price;
+      }
+
+      //list object product
+      var objectProduct = {};
+      objectProduct.product = nameItem;
+      objectProduct.shoppers = buyers;
+      objectProduct.leftOver = leftovers;
+      objectProduct.totalProfit = profit;
+      arrObject.push(objectProduct);
+    }
+    return arrObject;
   } else {
     return [];
   }
 }
 
-
 // TEST CASES
-// console.log(countProfit([{
-//   name: 'Windi',
-//   product: 'Sepatu Stacattu',
-//   amount: 2
-// }, {
-//   name: 'Vanessa',
-//   product: 'Sepatu Stacattu',
-//   amount: 3
-// }, {
-//   name: 'Rani',
-//   product: 'Sweater Uniklooh',
-//   amount: 2
-// }]));
+console.log(countProfit([{
+  name: 'Windi',
+  product: 'Sepatu Stacattu',
+  amount: 2
+}, {
+  name: 'Vanessa',
+  product: 'Sepatu Stacattu',
+  amount: 3
+}, {
+  name: 'Rani',
+  product: 'Sweater Uniklooh',
+  amount: 2
+}]));
 //[ { product: 'Sepatu Stacattu',
 //   shoppers: [ 'Windi', 'Vanessa' ],
 //   leftOver: 5,
@@ -102,29 +143,31 @@ console.log(countProfit([{
   product: 'Baju Zoro',
   amount: 1
 }]));
-// // [ { product: 'Sepatu Stacattu',
-// //     shoppers: [ 'Windi' ],
-// //     leftOver: 2,
-// //     totalProfit: 12000000 },
-// //   { product: 'Baju Zoro',
-// //     shoppers: [ 'Devi', 'Lisa' ],
-// //     leftOver: 0,
-// //     totalProfit: 1000000 },
-// //   { product: 'Sweater Uniklooh',
-// //     shoppers: [ 'Rani' ],
-// //     leftOver: 0,
-// //     totalProfit: 175000 } ]
-// console.log(countProfit([{name: 'Windi', product: 'Sepatu Naiki', amount: 5}]));
-// // [ { product: 'Sepatu Stacattu',
-// //     shoppers: [],
-// //     leftOver: 10,
-// //     totalProfit: 0 },
-// //   { product: 'Baju Zoro',
-// //     shoppers: [],
-// //     leftOver: 2,
-// //     totalProfit: 0 },
-// //   { product: 'Sweater Uniklooh',
-// //     shoppers: [],
-// //     leftOver: 1,
-// //     totalProfit: 0 } ]
+// [ { product: 'Sepatu Stacattu',
+//     shoppers: [ 'Windi' ],
+//     leftOver: 2,
+//     totalProfit: 12000000 },
+//   { product: 'Baju Zoro',
+//     shoppers: [ 'Devi', 'Lisa' ],
+//     leftOver: 0,
+//     totalProfit: 1000000 },
+//   { product: 'Sweater Uniklooh',
+//     shoppers: [ 'Rani' ],
+//     leftOver: 0,
+//     totalProfit: 175000 } ]
+
+console.log(countProfit([{name: 'Windi', product: 'Sepatu Naiki', amount: 5}]));
+// [ { product: 'Sepatu Stacattu',
+//     shoppers: [],
+//     leftOver: 10,
+//     totalProfit: 0 },
+//   { product: 'Baju Zoro',
+//     shoppers: [],
+//     leftOver: 2,
+//     totalProfit: 0 },
+//   { product: 'Sweater Uniklooh',
+//     shoppers: [],
+//     leftOver: 1,
+//     totalProfit: 0 } ]
+
 console.log(countProfit([])); //[]
