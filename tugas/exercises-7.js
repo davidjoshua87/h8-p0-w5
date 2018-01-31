@@ -17,6 +17,17 @@ Contoh:
 */
 
 //code disini
+// Solusi 1
+function makanTerusRekursif(waktu) {
+  if (waktu < 1) {
+    return 0;
+  } else {
+    var makan = 1;
+    return makan + makanTerusRekursif(waktu - 15);
+  }
+}
+
+// Solusi 2
 function makanTerusRekursif(waktu) {
     return (waktu < 1) ? 0 : 1 + makanTerusRekursif(waktu-15);
 }
