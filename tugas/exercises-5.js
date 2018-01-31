@@ -13,8 +13,21 @@ Code
 
 */
 //code disini
+//Solusi 1
+function totalDigitRekursif(angka) {
+  var angkaString = String(angka);
+  if (angkaString.length === 1) {
+    return Number(angkaString);
+  } else {
+    // console.log(angkaString);
+    var angkaHasil = angkaString.slice(0, 1);
+    angka = angkaString.slice(1);
+    // console.log(angkaHasil);
+    return Number(angkaHasil) + totalDigitRekursif(angka);
+  }
+}
 
-
+//Solusi 2
 function totalDigitRekursif(angka){
   return (angka < 10) ? angka : angka % 10 + totalDigitRekursif(Math.floor(angka / 10));
 }
