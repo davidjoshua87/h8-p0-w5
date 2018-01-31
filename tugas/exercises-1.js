@@ -12,28 +12,28 @@ Contoh jika arr inputan adalah [45, 20, 21, 2, 7] maka output: [ [ 20, 2 ], [ 7 
 Code
 */
 
-//code disini
-
+// code disini
+// solusi 1
 function mengelompokkanAngka(arr) {
   var arrResult = [];
   // console.log(arrResult);
-  var b1 = []; // arr yang genap
-  var b2 = []; // arr yang ganjil
-  var b3 = []; // arr kelipatan3
+  var baris1 = []; // arr yang genap
+  var baris2 = []; // arr yang ganjil
+  var baris3 = []; // arr kelipatan3
   for (var i = 0; i < arr.length; i++) {
     if (arr[i] % 3 === 0) {
-      b3.push(arr[i]);
+      baris3.push(arr[i]);
     }else if (arr[i] % 2 !== 0) {
-      b2.push(arr[i]);
+      baris2.push(arr[i]);
     } else if (arr[i] % 2 === 0) {
-      b1.push(arr[i]);
+      baris1.push(arr[i]);
     }
   }
-  arrResult.push(b1, b2, b3); // console.log(b1);// console.log(b2);// console.log(b3);
+  arrResult.push(baris1, baris2, baris3); // console.log(baris1);// console.log(baris2);// console.log(baris3);
   return arrResult;
 }
 
-
+// solusi 2
 // function mengelompokkanAngka(arr) {
 //   var arrResult = [];
 //   // console.log(arrResult);
