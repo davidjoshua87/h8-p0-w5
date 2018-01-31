@@ -9,6 +9,22 @@ Contoh:
 */
 
 //Code disini
+
+// Solusi 1
+function kaliTerusRekursif(angka) {
+  if (angka < 10) {
+    return angka;
+  } else {
+    angka = angka.toString().split('');
+    var totalKali = 1;
+    for (var i = 0; i < angka.length; i++) {
+      totalKali *= angka[i];
+    }
+    return kaliTerusRekursif(totalKali);
+  }
+}
+
+// Solusi 2
 function kaliTerusRekursif(angka) {
   return (angka < 10) ? Math.floor(angka) : kaliTerusRekursif(kaliTerusRekursif(angka % 10) * kaliTerusRekursif(angka / 10));
 }
